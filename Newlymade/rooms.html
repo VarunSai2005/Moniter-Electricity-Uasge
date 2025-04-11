@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Selection - Electricity Theme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #00ffcc;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Electricity Background Animation */
+        .electricity-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1));
+            z-index: -1;
+        }
+
+        .electricity-background::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #00ffcc, #ff00cc, #00ffcc, #ff00cc);
+            background-size: 400% 400%;
+            animation: electricFlow 10s linear infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes electricFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.5);
+            animation: fadeIn 1s ease-in-out;
+            border: 2px solid #00ffcc;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            animation: flicker 10s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.2; }
+        }
+
+        /* Room Button Grid (3 per row) */
+        .room-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 buttons per row */
+            gap: 15px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .room-button {
+            padding: 15px;
+            background: linear-gradient(90deg, #00ffcc, #ff00cc);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%; /* Full width of the grid column */
+        }
+
+        .room-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 0, 204, 1);
+            background: linear-gradient(90deg, #ff00cc, #00ffcc);
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #00ffcc;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #ff00cc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #00ffcc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .room-buttons {
+                grid-template-columns: repeat(2, 1fr); /* 2 buttons per row on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Electricity Background -->
+    <div class="electricity-background"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h2>Select a Room</h2>
+        <div class="room-buttons" id="roomButtons">
+            <!-- Room buttons will be dynamically generated here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Room Selection. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+    </footer>
+
+    <script>
+        // Function to redirect to the Calculate page
+        function redirectToCalculatePage(room) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const building = urlParams.get('building');
+            const floor = urlParams.get('floor');
+            window.location.href = "Calculate1.html?building=" + encodeURIComponent(building) + "&floor=" + floor + "&room=" + encodeURIComponent(room);
+        }
+
+        // Generate 15 room buttons dynamically
+        const roomButtons = document.getElementById('roomButtons');
+        for (let i = 1; i <= 15; i++) {
+            const button = document.createElement('button');
+            button.className = "room-button";
+            button.innerText = "Room " + i;
+            button.onclick = () => redirectToCalculatePage("Room " + i);
+            roomButtons.appendChild(button);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Consumption Monitor</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a0f1a;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Glowing effect */
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #00d4ff; }
+      50% { box-shadow: 0 0 20px #00d4ff; }
+      100% { box-shadow: 0 0 10px #00d4ff; }
+    }
+
+    /* Main Container */
+    .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding: 20px;
+    }
+
+    /* Cards for Table & Chart */
+    .calculation-table, .chart-container {
+      background: rgba(15, 20, 40, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      width: 45%;
+      min-width: 350px;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 2px solid #00d4ff;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #00d4ff;
+      padding: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    th {
+      background: #0077ff;
+      color: white;
+    }
+
+    input {
+      width: 60px;
+      padding: 5px;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      background: #1a1f2e;
+      color: white;
+      border: 1px solid #00d4ff;
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(45deg, #0077ff, #00d4ff);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #00d4ff, #0077ff);
+      transform: scale(1.05);
+    }
+
+    /* Digital Clock */
+    .clock {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #00d4ff;
+      text-shadow: 0 0 10px #00d4ff;
+    }
+
+    /* Chart */
+    .chart-container canvas {
+      height: 250px !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .calculation-table, .chart-container {
+        width: 90%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calculation-table">
+      <h2>Energy Consumption Calculator</h2>
+      <table>
+        <tr>
+          <th>Appliance</th>
+          <th>Quantity</th>
+          <th>Power (W)</th>
+        </tr>
+        <tr>
+          <td>Ceiling Fans</td>
+          <td><p id="fans">Loading...</p></td>
+          <td><p id="powerFan">Loading...</p></td>
+        </tr>
+        <tr>
+          <td>Computers</td>
+          <td><p id="computers">Loading...</p></td>
+          <td><p id="powerComputer">Loading...</p></td>
+        </tr>
+        <tr>
+          <td>Light Bulbs</td>
+          <td><p id="lights">Loading...</p></td>
+          <td><p id="powerLight">Loading...</p></td>
+        </tr>
+      </table>
+      <button class="btn" onclick="startTimer()">Start Timer</button>
+      <button class="btn" onclick="stopTimer()">Stop Timer</button>
+      <div class="results">
+        <p>Time Elapsed: <span id="timeElapsed">0</span> seconds</p>
+        <p><strong>Total Energy Consumed:</strong> <span id="energyConsumed">0</span> Wh</p>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h2>Energy Consumption Chart</h2>
+      <div class="clock" id="clock">00:00:00</div>
+      <canvas id="energyChart"></canvas>
+    </div>
+  </div>
+  <script>
+    let timerInterval;
+    let startTime;
+    let elapsedTime = 0;
+    let energyData = [];
+    let timeData = [];
+    const ctx = document.getElementById('energyChart').getContext('2d');
+    const energyChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: timeData,
+        datasets: [{
+          label: 'Energy Consumed (Wh)',
+          data: energyData,
+          borderColor: '#00d4ff',
+          backgroundColor: 'rgba(0, 212, 255, 0.2)',
+          borderWidth: 2,
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { ticks: { color: '#fff' } },
+          y: { ticks: { color: '#fff' } }
+        },
+        plugins: { legend: { labels: { color: '#fff' } } }
+      }
+    });
+    function startTimer() {
+      if (!startTime) startTime = Date.now() - elapsedTime * 1000;
+      if (!timerInterval) timerInterval = setInterval(updateTime, 1000);
+    }
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      calculateEnergy();
+    }
+    function updateTime() {
+      elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+      document.getElementById("timeElapsed").textContent = elapsedTime;
+      updateClock();
+    }
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+    }
+    function calculateEnergy() {
+      let totalPower = parseInt(document.getElementById("powerFan").textContent) * parseInt(document.getElementById("fans").textContent) +
+                       parseInt(document.getElementById("powerComputer").textContent) * parseInt(document.getElementById("computers").textContent) +
+                       parseInt(document.getElementById("powerLight").textContent) * parseInt(document.getElementById("lights").textContent);
+      document.getElementById("energyConsumed").textContent = ((totalPower * elapsedTime) / 3600).toFixed(2);
+    }
+    async function fetchRoomData(roomNumber) {
+      try {
+        const response = await fetch(`http://localhost:3000/room/${roomNumber}`);
+        const data = await response.json();
+        if (data.error) {
+          console.error('Room data not found');
+          return;
+        }
+        document.getElementById('fans').textContent = data.cfans;
+        document.getElementById('powerFan').textContent = data.cpow;
+        document.getElementById('computers').textContent = data.computers;
+        document.getElementById('powerComputer').textContent = data.compow;
+        document.getElementById('lights').textContent = data.bulbs;
+        document.getElementById('powerLight').textContent = data.bulpow;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchRoomData('1');
+    });
+  </script>
+</body>
+</html>

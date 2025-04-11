@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>save Electricity Login Page</title>
+  <style>
+    /* (Your existing CSS remains unchanged) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000; /* Dark background for electricity effect */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated electricity background */
+    .electricity-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1));
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .electricity-background::before,
+    .electricity-background::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #00ffcc, #ff00cc, #00ffcc, #ff00cc);
+      background-size: 400% 400%;
+      animation: electricFlow 10s linear infinite;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .electricity-background::after {
+      animation-delay: -5s;
+      opacity: 0.2;
+    }
+
+    @keyframes electricFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 255, 204, 0.3);
+      animation: fadeIn 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #00ffcc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .form-container {
+      display: none;
+      animation: slideIn 0.5s ease-in-out;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-container.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00ffcc; /* Electric cyan color */
+      font-size: 24px;
+      font-weight: bold;
+      animation: textPop 0.5s ease-in-out;
+    }
+
+    @keyframes textPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+      animation: fadeInInput 0.5s ease-in-out;
+    }
+
+    @keyframes fadeInInput {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .input-group label {
+      font-size: 14px;
+      color: #00ffcc; /* Electric cyan color */
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 2px solid #00ffcc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #00ffcc;
+      transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .input-group input:focus {
+      border-color: #000dff; /* Electric pink color */
+      box-shadow: 0 0 8px rgba(166, 0, 255, 0.3);
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #00ffcc; /* Electric cyan color */
+      color: #000;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      background-color: #ff00cc; /* Electric pink color */
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: #ff4444;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 10px;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+    }
+
+    .toggle-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #00ffcc; /* Electric cyan color */
+    }
+
+    .toggle-link a {
+      color: #ff00cc; /* Electric pink color */
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .toggle-link a:hover {
+      color: #00ffcc; /* Electric cyan color */
+    }
+  </style>
+  </style>
+</head>
+<body>
+
+  <!-- Electricity Background -->
+  <div class="electricity-background"></div>
+
+  <!-- Login & Signup Forms -->
+  <div class="container">
+    <div id="signup-form" class="form-container">
+      <h2>Signup</h2>
+      <form id="signup-form-submit">
+        <div class="input-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-username">Username</label>
+          <input type="text" id="signup-username" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" required>
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
+        <p id="signup-error-message" class="error-message"></p>
+      </form>
+      <p class="toggle-link">Already have an account? <a onclick="toggleForms('login')">Login</a></p>
+    </div>
+
+    <div id="login-form" class="form-container active">
+      <h2>Login</h2>
+      <form id="login-form-submit">
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="input-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" required>
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <p id="login-error-message" class="error-message"></p>
+      </form>
+      <p class="toggle-link">Don't have an account? <a onclick="toggleForms('signup')">Sign Up</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function toggleForms(formType) {
+        document.getElementById('signup-form').classList.toggle('active', formType === 'signup');
+        document.getElementById('login-form').classList.toggle('active', formType === 'login');
+      }
+  
+      document.getElementById('signup-form-submit').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value;
+        const username = document.getElementById('signup-username').value;
+        const password = document.getElementById('signup-password').value;
+  
+        try {
+          const response = await fetch('http://localhost:3000/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, username, password })
+          });
+  
+          const result = await response.json();
+          if (response.ok) {
+            alert("Signup successful! You can now login.");
+            toggleForms('login');
+          } else {
+            document.getElementById('signup-error-message').textContent = result.message || "Signup failed.";
+          }
+        } catch (err) {
+          document.getElementById('signup-error-message').textContent = "Error connecting to server.";
+        }
+      });
+  
+      document.getElementById('login-form-submit').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+  
+        try {
+          const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, username, password })
+          });
+  
+          const result = await response.json();
+          if (response.ok) {
+            alert("Login successful!");
+            window.location.href = "Extend1.html";
+          } else {
+            document.getElementById('login-error-message').textContent = result.message || "Invalid credentials.";
+          }
+        } catch (err) {
+          document.getElementById('login-error-message').textContent = "Error connecting to server.";
+        }
+      });
+  
+      // Make toggleForms globally accessible
+      window.toggleForms = toggleForms;
+    });
+  </script>
+  
+</body>
+</html>

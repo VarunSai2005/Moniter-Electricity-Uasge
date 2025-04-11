@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Management & Conservation</title>
+  <!-- Include Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), url('https://images.pexels.com/photos/159397/solar-panels-energy-power-sun-159397.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 100px 20px;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      animation: slideInDown 1s ease-in-out;
+    }
+    @keyframes slideInDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    header p {
+      font-size: 20px;
+      animation: slideInUp 1s ease-in-out;
+    }
+    @keyframes slideInUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .section {
+      margin: 40px 0;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 1s ease-in-out;
+    }
+    .section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #4CAF50;
+    }
+    .section p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .section img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .section img:hover {
+      transform: scale(1.05);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 20px;
+    }
+    .card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #4CAF50;
+    }
+    .card p {
+      font-size: 16px;
+    }
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Energy Management & Conservation</h1>
+    <p>Empowering a Sustainable Future Through Efficient Energy Use</p>
+  </header>
+
+  <div class="container">
+    <!-- Section 1: Why Energy Management is Necessary -->
+    <section class="section">
+      <h2>Why is Energy Management Necessary?</h2>
+      <div class="grid">
+        <div>
+          <img src="https://images.pexels.com/photos/414837/pexels-photo-414837.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Energy Management">
+          <p>
+            Energy management is crucial for reducing energy consumption, lowering costs, and minimizing environmental impact. 
+            It ensures the efficient use of energy resources, promotes sustainability, and helps combat climate change. 
+            By implementing energy management systems, businesses and households can track energy usage, identify inefficiencies, 
+            and adopt strategies to reduce waste.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Energy Saving Tips -->
+    <section class="section">
+      <h2>Energy Saving Tips</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="LED Bulbs">
+          <div class="card-content">
+            <h3>Switch to LED Bulbs</h3>
+            <p>LED bulbs consume up to 80% less energy than traditional incandescent bulbs and last much longer. They are a cost-effective way to reduce energy consumption in homes and offices.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Unplug Devices">
+          <div class="card-content">
+            <h3>Unplug Devices</h3>
+            <p>Unplug electronic devices when not in use to avoid phantom energy consumption. Devices like chargers, TVs, and computers consume energy even when turned off.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.pexels.com/photos/439416/pexels-photo-439416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Smart Thermostats">
+          <div class="card-content">
+            <h3>Use Smart Thermostats</h3>
+            <p>Smart thermostats optimize heating and cooling, reducing energy waste. They learn your schedule and adjust temperatures automatically to save energy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Alternative Energy Technologies -->
+    <section class="section">
+      <h2>Alternative Energy Technologies</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.pexels.com/photos/89770/pexels-photo-89770.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Solar Power">
+          <div class="card-content">
+            <h3>Solar Power</h3>
+            <p>Solar panels convert sunlight into electricity, providing a clean and renewable energy source. Solar energy is abundant and reduces reliance on fossil fuels.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.pexels.com/photos/65676/pexels-photo-65676.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Wind Energy">
+          <div class="card-content">
+            <h3>Wind Energy</h3>
+            <p>Wind turbines harness wind power to generate electricity without emissions. Wind energy is a sustainable solution for reducing carbon footprints.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.pexels.com/photos/459728/pexels-photo-459728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Hydropower">
+          <div class="card-content">
+            <h3>Hydropower</h3>
+            <p>Hydropower uses flowing water to generate electricity, a reliable and renewable energy source. It is one of the oldest and most efficient forms of renewable energy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 Energy Management & Conservation. All rights reserved. | <a href="#">Privacy Policy</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Energy Management System</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #2563eb;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 0.5rem;
+        }
+        
+        /* Main Content Styles */
+        main {
+            flex-grow: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            width: 100%;
+        }
+        
+        /* Dashboard Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+        
+        .card-icon.power {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .card-icon.building {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .card-icon.users {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .card-content h3 {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .card-content p {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        /* Block Grid Styles */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .block-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .block-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .block-card:hover {
+            background-color: #ebf5ff;
+        }
+        
+        .block-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 0.75rem;
+        }
+        
+        .block-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+        
+        /* Room List Styles */
+        .block-detail {
+            display: none;
+        }
+        
+        .block-detail.active {
+            display: block;
+        }
+        
+        .back-button {
+            background-color: #e5e7eb;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .back-button:hover {
+            background-color: #d1d5db;
+        }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .block-summary {
+            background-color: #ebf5ff;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 1rem;
+            border-bottom: 1px solid #dbeafe;
+            margin-bottom: 1rem;
+        }
+        
+        .block-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .room-list {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .room-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .room-item:last-child {
+            border-bottom: none;
+        }
+        
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            cursor: pointer;
+        }
+        
+        .room-name {
+            display: flex;
+            align-items: center;
+        }
+        
+        .room-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .room-status.occupied {
+            background-color: #10b981;
+        }
+        
+        .room-status.vacant {
+            background-color: #ef4444;
+        }
+        
+        .room-consumption {
+            display: flex;
+            align-items: center;
+        }
+        
+        .toggle-icon {
+            margin-left: 0.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .room-details {
+            display: none;
+            margin-left: 1.5rem;
+            padding: 0.5rem 1rem 1rem 1rem;
+            border-left: 2px solid #bfdbfe;
+        }
+        
+        .room-details.expanded {
+            display: block;
+        }
+        
+        .appliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .appliance-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .appliance-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-right: 0.25rem;
+        }
+        
+        .appliance-status {
+            font-weight: 500;
+        }
+        
+        .status-on {
+            color: #10b981;
+        }
+        
+        .status-off {
+            color: #6b7280;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .block-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .block-summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <h1 class="logo">
+                <span class="logo-icon">⚡</span>
+                Smart Energy Management System
+            </h1>
+            <div class="time" id="current-time"></div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Dashboard Summary -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="card-icon power">⚡</div>
+                <div class="card-content">
+                    <h3>Total Power Consumption</h3>
+                    <p id="total-consumption">0 kWh</p>
+                </div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="card-icon building">🏢</div>
+                <div class="card-content">
+                    <h3>Total Blocks</h3>
+                    <p id="total-blocks">0</p>
+                </div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="card-icon users">👥</div>
+                <div class="card-content">
+                    <h3>Occupancy</h3>
+                    <p id="total-occupancy">0 / 0 Rooms</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Block Overview (Initial View) -->
+        <div id="blocks-overview">
+            <h2 class="section-title">Building Blocks Overview</h2>
+            <div class="block-grid" id="block-grid"></div>
+        </div>
+        
+        <!-- Block Detail View (Hidden Initially) -->
+        <div id="block-detail" class="block-detail">
+            <div class="detail-header">
+                <button class="back-button" id="back-button">Back</button>
+                <h2 class="section-title" id="detail-title">Block Details</h2>
+            </div>
+            
+            <div class="block-summary">
+                <div class="block-summary-grid" id="block-summary-grid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="room-list" id="room-list">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <p>Smart Energy Management System (SEMS) - Saving Energy and Reducing Carbon Footprint</p>
+    </footer>
+
+    
+    <script>
+        // Sample data
+        const data = {
+            blocks: [
+                {
+                    id: 'block-a',
+                    name: 'Block A',
+                    totalConsumption: 234.5,
+                    rooms: [
+                        { id: 'a-101', name: 'Room 101', occupancy: true, lights: true, fans: true, ac: true, consumption: 45.2 },
+                        { id: 'a-102', name: 'Room 102', occupancy: false, lights: false, fans: false, ac: false, consumption: 0 },
+                        { id: 'a-103', name: 'Room 103', occupancy: true, lights: true, fans: true, ac: false, consumption: 18.7 },
+                        { id: 'a-104', name: 'Room 104', occupancy: false, lights: false, fans: false, ac: false, consumption: 0 },
+                    ]
+                },
+                {
+                    id: 'block-b',
+                    name: 'Block B',
+                    totalConsumption: 187.3,
+                    rooms: [
+                        { id: 'b-201', name: 'Room 201', occupancy: true, lights: true, fans: true, ac: true, consumption: 52.8 },
+                        { id: 'b-202', name: 'Room 202', occupancy: true, lights: true, fans: true, ac: false, consumption: 21.4 },
+                        { id: 'b-203', name: 'Room 203', occupancy: false, lights: false, fans: false, ac: false, consumption: 0 },
+                    ]
+                },
+                {
+                    id: 'block-c',
+                    name: 'Block C',
+                    totalConsumption: 312.8,
+                    rooms: [
+                        { id: 'c-301', name: 'Room 301', occupancy: true, lights: true, fans: true, ac: true, consumption: 65.3 },
+                        { id: 'c-302', name: 'Room 302', occupancy: false, lights: false, fans: false, ac: false, consumption: 0 },
+                        { id: 'c-303', name: 'Room 303', occupancy: true, lights: true, fans: true, ac: true, consumption: 58.9 },
+                        { id: 'c-304', name: 'Room 304', occupancy: true, lights: true, fans: false, ac: false, consumption: 12.6 },
+                    ]
+                },
+            ]
+        };
+        
+        // DOM elements
+        const blocksOverview = document.getElementById('blocks-overview');
+        const blockDetail = document.getElementById('block-detail');
+        const blockGrid = document.getElementById('block-grid');
+        const detailTitle = document.getElementById('detail-title');
+        const blockSummaryGrid = document.getElementById('block-summary-grid');
+        const roomList = document.getElementById('room-list');
+        const backButton = document.getElementById('back-button');
+        const currentTimeElement = document.getElementById('current-time');
+        const totalConsumptionElement = document.getElementById('total-consumption');
+        const totalBlocksElement = document.getElementById('total-blocks');
+        const totalOccupancyElement = document.getElementById('total-occupancy');
+        
+        // Initialize time
+        function updateTime() {
+            const now = new Date();
+            currentTimeElement.textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Calculate summary statistics
+        function updateSummaryStats() {
+            const totalConsumption = data.blocks.reduce((sum, block) => sum + block.totalConsumption, 0);
+            const totalRooms = data.blocks.reduce((sum, block) => sum + block.rooms.length, 0);
+            const occupiedRooms = data.blocks.reduce((sum, block) => {
+                return sum + block.rooms.filter(room => room.occupancy).length;
+            }, 0);
+            
+            totalConsumptionElement.textContent = totalConsumption.toFixed(1) + ' kWh';
+            totalBlocksElement.textContent = data.blocks.length;
+            totalOccupancyElement.textContent = occupiedRooms + ' / ' + totalRooms + ' Rooms';
+        }
+        
+        // Render block grid
+        function renderBlocks() {
+            blockGrid.innerHTML = '';
+            
+            data.blocks.forEach(block => {
+                const occupiedRooms = block.rooms.filter(room => room.occupancy).length;
+                
+                const blockCard = document.createElement('div');
+                blockCard.className = 'block-card';
+                blockCard.dataset.blockId = block.id;
+                
+                blockCard.innerHTML = `
+                    <h3 class="block-name">${block.name}</h3>
+                    <div class="block-stats">
+                        <div>
+                            <p class="stat-label">Power Consumption</p>
+                            <p class="stat-value">${block.totalConsumption.toFixed(1)} kWh</p>
+                        </div>
+                        <div>
+                            <p class="stat-label">Occupancy</p>
+                            <p class="stat-value">${occupiedRooms} / ${block.rooms.length} Rooms</p>
+                        </div>
+                    </div>
+                `;
+                
+                blockCard.addEventListener('click', () => showBlockDetail(block.id));
+                
+                blockGrid.appendChild(blockCard);
+            });
+        }
+        
+        // Show block detail
+        function showBlockDetail(blockId) {
+            const block = data.blocks.find(b => b.id === blockId);
+            if (!block) return;
+            
+            // Update block title
+            detailTitle.textContent = `${block.name} Details`;
+            
+            // Render block summary
+            const occupiedRooms = block.rooms.filter(room => room.occupancy).length;
+            const vacantRooms = block.rooms.length - occupiedRooms;
+            
+            blockSummaryGrid.innerHTML = `
+                <div>
+                    <p class="stat-label">Power Consumption</p>
+                    <p class="stat-value">${block.totalConsumption.toFixed(1)} kWh</p>
+                </div>
+                <div>
+                    <p class="stat-label">Number of Rooms</p>
+                    <p class="stat-value">${block.rooms.length}</p>
+                </div>
+                <div>
+                    <p class="stat-label">Occupied Rooms</p>
+                    <p class="stat-value">${occupiedRooms}</p>
+                </div>
+                <div>
+                    <p class="stat-label">Vacant Rooms</p>
+                    <p class="stat-value">${vacantRooms}</p>
+                </div>
+            `;
+            
+            // Render room list
+            roomList.innerHTML = '';
+            
+            block.rooms.forEach(room => {
+                const roomItem = document.createElement('div');
+                roomItem.className = 'room-item';
+                
+                const roomHeader = document.createElement('div');
+                roomHeader.className = 'room-header';
+                roomHeader.innerHTML = `
+                    <div class="room-name">
+                        <span class="room-status ${room.occupancy ? 'occupied' : 'vacant'}"></span>
+                        <span>${room.name}</span>
+                    </div>
+                    <div class="room-consumption">
+                        <span>${room.consumption} kWh</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                `;
+                
+                const roomDetails = document.createElement('div');
+                roomDetails.className = 'room-details';
+                roomDetails.innerHTML = `
+                    <div class="appliance-grid">
+                        <div class="appliance-item">
+                            <span class="appliance-label">Occupancy:</span>
+                            <span class="appliance-status ${room.occupancy ? 'status-on' : 'status-off'}">
+                                ${room.occupancy ? 'Occupied' : 'Vacant'}
+                            </span>
+                        </div>
+                        <div class="appliance-item">
+                            <span class="appliance-label">Lights:</span>
+                            <span class="appliance-status ${room.lights ? 'status-on' : 'status-off'}">
+                                ${room.lights ? 'On' : 'Off'}
+                            </span>
+                        </div>
+                        <div class="appliance-item">
+                            <span class="appliance-label">Fans:</span>
+                            <span class="appliance-status ${room.fans ? 'status-on' : 'status-off'}">
+                                ${room.fans ? 'On' : 'Off'}
+                            </span>
+                        </div>
+                        <div class="appliance-item">
+                            <span class="appliance-label">AC:</span>
+                            <span class="appliance-status ${room.ac ? 'status-on' : 'status-off'}">
+                                ${room.ac ? 'On' : 'Off'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                roomHeader.addEventListener('click', () => {
+                    roomDetails.classList.toggle('expanded');
+                    const toggleIcon = roomHeader.querySelector('.toggle-icon');
+                    toggleIcon.textContent = roomDetails.classList.contains('expanded') ? '-' : '+';
+                });
+                
+                roomItem.appendChild(roomHeader);
+                roomItem.appendChild(roomDetails);
+                roomList.appendChild(roomItem);
+            });
+            
+            // Show block detail view and hide overview
+            blocksOverview.style.display = 'none';
+            blockDetail.classList.add('active');
+        }
+        
+        // Back button handler
+        backButton.addEventListener('click', () => {
+            blocksOverview.style.display = 'block';
+            blockDetail.classList.remove('active');
+        });
+        
+        // Initialize
+        updateSummaryStats();
+        renderBlocks();
+        
+        // Simulate real-time updates (for demo purposes)
+        function simulateUpdates() {
+            // Randomly update a room's status
+            const randomBlockIndex = Math.floor(Math.random() * data.blocks.length);
+            const randomBlock = data.blocks[randomBlockIndex];
+            const randomRoomIndex = Math.floor(Math.random() * randomBlock.rooms.length);
+            const randomRoom = randomBlock.rooms[randomRoomIndex];
+            
+            // Toggle occupancy and update appliances accordingly
+            randomRoom.occupancy = !randomRoom.occupancy;
+            
+            if (randomRoom.occupancy) {
+                randomRoom.lights = true;
+                randomRoom.fans = true;
+                randomRoom.ac = Math.random() > 0.5; // 50% chance of AC being on
+                randomRoom.consumption = randomRoom.ac ? Math.random() * 30 + 20 : Math.random() * 15 + 5;
+            } else {
+                randomRoom.lights = false;
+                randomRoom.fans = false;
+                randomRoom.ac = false;
+                randomRoom.consumption = 0;
+            }
+            
+            // Recalculate block consumption
+            randomBlock.totalConsumption = randomBlock.rooms.reduce((sum, room) => sum + room.consumption, 0);
+            
+            // Update the UI
+            updateSummaryStats();
+            renderBlocks();
+            
+            // If we're viewing this block, update the detail view too
+            if (blockDetail.classList.contains('active')) {
+                const currentBlockId = document.querySelector('.room-item')?.parentNode.dataset.blockId;
+                if (currentBlockId === randomBlock.id) {
+                    showBlockDetail(randomBlock.id);
+                }
+            }
+        }
+        
+        // Uncomment to enable simulated updates
+        // setInterval(simulateUpdates, 5000);
+    </script>
+</body>
+</html>

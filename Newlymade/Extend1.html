@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution Selection - Electricity Theme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+    <!-- Electricity Background -->
+    <div class="electricity-background"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="Home.html">Home</a>
+        <a href="#">Buildings</a>
+        <a href="#">Random Room</a>
+        <a href="#">Contact</a>
+        <a href="login.html" class="login-btn">Login/Signup</a>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h2>Select an Institution Type</h2>
+        <div class="selection">
+            <button class="option disabled" onclick="showMessage()">
+                <img src="/assets/img1.jpg" alt="College">
+                College
+            </button>
+            <button class="option disabled" onclick="showMessage()">
+                <img src="/assets/img2.jpg" alt="School">
+                School
+            </button>
+            <button class="option" onclick="window.location.href='buildings.html'">
+                <img src="/assets/img3.jpg" alt="University">
+                University
+            </button>
+            <button class="option disabled" on`click="showMessage()">
+                <img src="/assets/img4.jpg" alt="Community">
+                Community
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy;Institution Selection. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+    </footer>
+
+    <script>
+        function showMessage() {
+            alert("Currently, only University buildings are available.");
+        }
+    </script>
+</body>
+</html>
